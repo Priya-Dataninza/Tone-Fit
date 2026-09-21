@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Cart - Almirah</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #0b0f1a;
+  color: white;
+}
+
+.header {
+  padding: 15px 30px;
+  background: linear-gradient(90deg, #1a1f3c, #2a0f3d);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: bold;
+  background: linear-gradient(90deg, #4facfe, #a855f7);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 30px auto;
+  display: flex;
+  gap: 20px;
+  padding: 0 15px;
+}
+
+.items { flex: 2; }
+
+.card {
+  background: rgba(255,255,255,0.05);
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card img {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.info {
+  flex: 1;
+  margin-left: 15px;
+}
+
+.info h3 {
+  margin: 0;
+}
+
+.price {
+  color: #4facfe;
+  font-weight: bold;
+}
+
+.qty {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn {
+  padding: 5px 10px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #4facfe, #a855f7);
+  color: white;
+  text-decoration: none;
+}
+
+.remove {
+  color: red;
+  text-decoration: none;
+}
+
+.summary {
+  flex: 1;
+  background: rgba(255,255,255,0.05);
+  padding: 20px;
+  border-radius: 12px;
+}
+
+.total {
+  font-size: 20px;
+  margin-top: 10px;
+  color: #a855f7;
+}
+
+.checkout {
+  width: 100%;
+  margin-top: 15px;
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #4facfe, #a855f7);
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: 0.3s ease;
+}
+
+.checkout:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 15px rgba(168,85,247,0.4);
+}
+
+.checkout:active {
+  transform: scale(0.98);
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+  <div class="logo">Almirah Cart</div>
+</div>
+
+<div class="container">
+
+  <!-- ITEMS -->
+  <div class="items">
+
+    {% for item in items %}
+    <div class="card">
+
+      <!-- IMAGE -->
+      {% if item.product.product_image %}
+        <img src="{{ item.product.product_image.url }}">
+      {% endif %}
+
+      <!-- INFO -->
+      <div class="info">
+        <h3>{{ item.product.product_name }}</h3>
+        <p class="price">₹ {{ item.product.max_retail_price }}</p>
+      </div>
+
+      <!-- QTY -->
+      <div class="qty">
+        <a class="btn" href="{% url 'decrease_qty' item.id %}">-</a>
+        <span>{{ item.quantity }}</span>
+        <a class="btn" href="{% url 'increase_qty' item.id %}">+</a>
+      </div>
+
+      <!-- REMOVE -->
+      <a class="remove" href="{% url 'remove_cart' item.id %}">Remove</a>
+
+    </div>
+    {% empty %}
+      <p>Your cart is empty 🛒</p>
+    {% endfor %}
+
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="summary">
+    <h2>Price Summary</h2>
+
+    <p>Total Items: {{ items|length }}</p>
+
+    <div class="total">
+      Total: ₹ {{ total }}
+    </div>
+<form action="{% url 'place_order' %}" method="POST">
+  {% csrf_token %}
+  <button type="submit" class="checkout">Proceed to Checkout</button>
+</form>
+  </div>
+
+</div>
+
+</body>
+</html>

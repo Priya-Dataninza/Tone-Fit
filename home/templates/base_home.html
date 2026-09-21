@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Almirah AI Store</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+  color: white;
+}
+
+/* HEADER */
+.header {
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 40px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo {
+  font-size: 26px;
+  font-weight: bold;
+  background: linear-gradient(45deg, #7f5af0, #2cb67d);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.search-box {
+  flex: 1;
+  display: flex;
+  margin: 0 30px;
+}
+
+.search-box input {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 8px 0 0 8px;
+}
+
+.search-box button {
+  padding: 10px 15px;
+  border: none;
+  background: linear-gradient(45deg, #7f5af0, #2cb67d);
+  color: white;
+  border-radius: 0 8px 8px 0;
+}
+
+.nav a {
+  color: white;
+  margin-left: 15px;
+  text-decoration: none;
+}
+
+/* MAIN */
+.main { display: flex; }
+
+/* FILTERS */
+.filters {
+  width: 250px;
+  margin: 20px;
+  padding: 20px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.05);
+}
+
+.section { margin-bottom: 15px; }
+
+h4, h5 { color: #7f5af0; }
+
+/* COLORS */
+.colors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.color {
+  padding: 6px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  background: rgba(255,255,255,0.08);
+  cursor: pointer;
+}
+
+.color.active { background: #7f5af0; }
+
+/* CATEGORY */
+.categories {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.cat {
+  background: rgba(255,255,255,0.08);
+  padding: 8px;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.cat.active { background: #7f5af0; }
+
+/* SKIN TONE */
+.skintones {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tone {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.tone.active {
+  border: 2px solid #7f5af0;
+  transform: scale(1.1);
+}
+
+/* BUTTONS */
+.apply, .clear {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  margin-top: 8px;
+  cursor: pointer;
+}
+
+.apply {
+  background: linear-gradient(45deg, #7f5af0, #2cb67d);
+  color: white;
+}
+.color {
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid #7f5af0;
+}
+.clear {
+  background: #ff4d6d;
+  color: white;
+}
+
+/* PRODUCTS */
+.content { flex: 1; }
+
+.products {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.card {
+  background: rgba(255,255,255,0.05);
+  padding: 10px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.price {
+  color: #2cb67d;
+  font-weight: bold;
+}
+
+/* ACTION BUTTONS */
+.actions {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.cart-btn {
+  flex: 1;
+  padding: 8px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(45deg, #7f5af0, #2cb67d);
+  color: white;
+  cursor: pointer;
+}
+
+.wish-btn {
+  padding: 8px;
+  border-radius: 8px;
+  border: none;
+  background: #ff4d6d;
+  color: white;
+  cursor: pointer;
+}
+
+.wish-btn.active { background: #e60023; }
+
+/* UPLOAD */
+.upload-box {
+  margin: 20px;
+  padding: 20px;
+  text-align: center;
+  background: rgba(255,255,255,0.06);
+  border-radius: 15px;
+}
+
+.preview {
+  width: 220px;
+  height: 220px;
+  margin: auto;
+  border-radius: 15px;
+  overflow: hidden;
+  border: 2px solid #7f5af0;
+}
+
+.preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.btn-row {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 10px 14px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(45deg, #7f5af0, #2cb67d);
+  color: white;
+  cursor: pointer;
+  min-width: 120px;
+}
+
+.result {
+  margin-top: 18px;
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid #7f5af0;
+  display: none;
+}
+
+video {
+  width: 100%;
+  margin-top: 10px;
+  display: none;
+  border-radius: 10px;
+}
+
+.card-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.card-link .card {
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.card-link .card:hover {
+  transform: scale(1.03);
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+  <div class="logo">Almirah</div>
+
+  <form method="GET" class="search-box">
+    <input type="text" name="q" placeholder="Search products" value="{{ request.GET.q }}">
+    <button type="submit">🔍</button>
+  </form>
+
+  <div class="nav">
+    <a href="{%url 'wishlist' %}">Wishlist</a>
+    <a href="{%url 'orders' %}">Orders</a>
+    <a href="{% url 'profile' %}">Profile</a>
+    <a href="{% url 'cart' %}">Cart</a>
+  </div>
+</div>
+
+<div class="upload-box">
+  <h3>AI Skin Tone Analyzer</h3>
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="preview">
+      <img id="previewImage"
+        src="{% if image_preview %}data:image/jpeg;base64,{{ image_preview }}{% else %}https://images.unsplash.com/photo-1524504388940-b1c1722653e1{% endif %}">
+      <video id="video" autoplay></video>
+    </div>
+
+    <div class="btn-row">
+      <label class="btn">
+        Upload
+        <input type="file" hidden id="fileInput" name="image">
+      </label>
+
+      <button type="button" class="btn" onclick="startCamera()">Cam</button>
+      <button type="button" class="btn" onclick="captureImage()">Capture</button>
+    </div>
+
+    <canvas id="canvas" style="display:none;"></canvas>
+    <input type="hidden" name="captured_image" id="captured_image">
+
+    <button class="btn" type="submit" style="margin-top:15px;">
+      Detect Skin Tone
+    </button>
+  </form>
+
+  {% if tone %}
+  <div class="result" style="display:block;">
+    <h4>Detected Tone: {{ tone }}</h4>
+
+    <h5>Recommended Colors:</h5>
+    <div class="colors">
+      {% for color in recommended_colors %}
+        <div class="color">{{ color }}</div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+</div>
+
+<div class="main">
+
+  <!-- FILTERS -->
+  <form method="GET">
+    <div class="filters">
+
+      <h4>Filters</h4>
+
+      <!-- COLORS -->
+      <div class="section">
+        <h5>Colors</h5>
+        <div class="colors">
+
+          <!-- ✅ FIXED PART -->
+          <label><input type="checkbox" name="color" value="Black"
+            {% if "Black" in selected_colors %}checked{% endif %}> Black</label>
+
+          <label><input type="checkbox" name="color" value="Blue"
+            {% if "Blue" in selected_colors %}checked{% endif %}> Blue</label>
+
+          <label><input type="checkbox" name="color" value="Red"
+            {% if "Red" in selected_colors %}checked{% endif %}> Red</label>
+
+          <label><input type="checkbox" name="color" value="Green"
+            {% if "Green" in selected_colors %}checked{% endif %}> Green</label>
+
+        </div>
+      </div>
+
+      <!-- CATEGORY (UNCHANGED) -->
+      <div class="section">
+        <h5>Categories</h5>
+        <div class="categories">
+
+          <label><input type="radio" name="category" value="T-Shirt"
+            {% if request.GET.category == "T-Shirt" %}checked{% endif %}> T-Shirt</label>
+
+          <label><input type="radio" name="category" value="Shirt"
+            {% if request.GET.category == "Shirt" %}checked{% endif %}> Shirt</label>
+
+          <label><input type="radio" name="category" value="Jeans"
+            {% if request.GET.category == "Jeans" %}checked{% endif %}> Jeans</label>
+
+          <label><input type="radio" name="category" value="Kurti"
+            {% if request.GET.category == "Kurti" %}checked{% endif %}> Kurti</label>
+
+          <label><input type="radio" name="category" value="Dress"
+            {% if request.GET.category == "Dress" %}checked{% endif %}> Dress</label>
+
+          <label><input type="radio" name="category" value="Hoodie"
+            {% if request.GET.category == "Hoodie" %}checked{% endif %}> Hoodie</label>
+
+        </div>
+      </div>
+
+      <!-- PRICE -->
+      <div class="section">
+        <h5>Price</h5>
+        <input type="range" min="100" max="5000" name="max_price"
+          value="{{ request.GET.max_price|default:2500 }}" id="priceRange">
+
+        <div>₹ <span id="priceValue">{{ request.GET.max_price|default:2500 }}</span></div>
+      </div>
+
+      <button type="submit" class="apply">Apply Filters</button>
+
+      <a href="{% url 'home' %}" class="clear"
+         style="display:block; text-align:center; text-decoration:none; padding:10px; margin-top:8px;">
+        Clear Filters
+      </a>
+    </div>
+  </form>
+
+  <!-- PRODUCTS -->
+  <div class="content">
+    <div class="products">
+
+      {% for product in products %}
+      <div class="card">
+
+        <a href="{% url 'product_detail' product.id %}" class="card-link">
+          {% if product.product_image %}
+            <img src="{{ product.product_image.url }}">
+          {% endif %}
+          <div>{{ product.product_name }}</div>
+        </a>
+
+        <div class="price">₹{{ product.max_retail_price }}</div>
+
+        <div class="actions">
+
+          <form action="{% url 'add_to_cart' product.id %}" method="POST">
+            {% csrf_token %}
+            <button type="submit" class="cart-btn">🛒 Add</button>
+          </form>
+
+          <form action="{% url 'add_to_wishlist' product.id %}" method="POST">
+            {% csrf_token %}
+            <button type="submit" class="wish-btn">❤</button>
+          </form>
+
+        </div>
+
+      </div>
+      {% endfor %}
+
+    </div>
+  </div>
+  
+
+</div>
+<!-- PAGINATION -->
+<div style="text-align:center; margin:20px;">
+
+  {% if products.has_previous %}
+    <a href="?page=1
+    {% if request.GET.q %}&q={{ request.GET.q }}{% endif %}
+    {% if request.GET.category %}&category={{ request.GET.category }}{% endif %}
+    {% for c in selected_colors %}&color={{ c }}{% endfor %}
+    {% if request.GET.max_price %}&max_price={{ request.GET.max_price }}{% endif %}
+    ">
+      &laquo; First
+    </a>
+
+    <a href="?page={{ products.previous_page_number }}
+    {% if request.GET.q %}&q={{ request.GET.q }}{% endif %}
+    {% if request.GET.category %}&category={{ request.GET.category }}{% endif %}
+    {% for c in selected_colors %}&color={{ c }}{% endfor %}
+    {% if request.GET.max_price %}&max_price={{ request.GET.max_price }}{% endif %}
+    ">
+      Prev
+    </a>
+  {% endif %}
+
+  <span style="margin: 0 10px;">
+    Page {{ products.number }} of {{ products.paginator.num_pages }}
+  </span>
+
+  {% if products.has_next %}
+    <a href="?page={{ products.next_page_number }}
+    {% if request.GET.q %}&q={{ request.GET.q }}{% endif %}
+    {% if request.GET.category %}&category={{ request.GET.category }}{% endif %}
+    {% for c in selected_colors %}&color={{ c }}{% endfor %}
+    {% if request.GET.max_price %}&max_price={{ request.GET.max_price }}{% endif %}
+    ">
+      Next
+    </a>
+
+    <a href="?page={{ products.paginator.num_pages }}
+    {% if request.GET.q %}&q={{ request.GET.q }}{% endif %}
+    {% if request.GET.category %}&category={{ request.GET.category }}{% endif %}
+    {% for c in selected_colors %}&color={{ c }}{% endfor %}
+    {% if request.GET.max_price %}&max_price={{ request.GET.max_price }}{% endif %}
+    ">
+      Last &raquo;
+    </a>
+  {% endif %}
+
+</div>
+<script>
+let video = document.getElementById("video");
+let canvas = document.getElementById("canvas");
+let previewImage = document.getElementById("previewImage");
+let capturedInput = document.getElementById("captured_image");
+
+let stream = null;
+
+/* START CAMERA */
+function startCamera() {
+  navigator.mediaDevices.getUserMedia({ video: true })
+    .then(s => {
+      stream = s;
+      video.srcObject = stream;
+
+      video.style.display = "block";
+      previewImage.style.display = "none";
+
+      // wait until video is ready
+      video.onloadedmetadata = () => {
+        video.play();
+      };
+    })
+    .catch(err => {
+      console.error(err);
+      alert("Camera not working");
+    });
+}
+
+/* CAPTURE IMAGE */
+function captureImage() {
+  if (!stream) {
+    alert("Camera not started!");
+    return;
+  }
+
+  if (video.videoWidth === 0) {
+    alert("Wait for camera to load!");
+    return;
+  }
+
+  const ctx = canvas.getContext("2d");
+
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+
+  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+  const imageData = canvas.toDataURL("image/jpeg");
+
+  // show captured image
+  previewImage.src = imageData;
+  previewImage.style.display = "block";
+
+  video.style.display = "none";
+
+  // send to backend
+  capturedInput.value = imageData;
+
+  // stop camera
+  stream.getTracks().forEach(track => track.stop());
+  stream = null;
+}
+
+
+
+ let pr = document.getElementById("priceRange");
+let pv = document.getElementById("priceValue");
+
+if (pr) {
+  pr.oninput = () => {
+    pv.innerText = pr.value;
+  };
+}
+
+
+</script>
+
+</body>
+</html>

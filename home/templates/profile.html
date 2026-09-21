@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Almirah Profile</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #0b0f1a;
+  color: #fff;
+}
+
+/* ================= HEADER ================= */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 30px;
+  background: linear-gradient(90deg, #1a1f3c, #2a0f3d);
+  box-shadow: 0 0 15px rgba(0,0,0,0.5);
+  position: sticky;
+  top: 0;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: bold;
+  background: linear-gradient(90deg, #4facfe, #a855f7);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* SEARCH */
+.search-box {
+  display: flex;
+  width: 40%;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #141a2a;
+  border: 1px solid #2a2f45;
+}
+
+.search-box input {
+  flex: 1;
+  border: none;
+  padding: 10px;
+  outline: none;
+  background: transparent;
+  color: white;
+}
+
+.search-box button {
+  background: linear-gradient(90deg, #4facfe, #a855f7);
+  border: none;
+  color: white;
+  padding: 10px 15px;
+  cursor: pointer;
+}
+
+/* NAV */
+.nav a {
+  margin-left: 15px;
+  text-decoration: none;
+  color: #cfd6ff;
+}
+
+.nav a:hover {
+  color: #a855f7;
+}
+
+/* ================= LAYOUT ================= */
+.container {
+  display: flex;
+  max-width: 1200px;
+  margin: 25px auto;
+  gap: 20px;
+  padding: 0 15px;
+}
+
+/* ================= SIDEBAR ================= */
+.sidebar {
+  width: 250px;
+  background: #11182a;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 0 20px rgba(168,85,247,0.15);
+}
+
+.menu {
+  list-style: none;
+  padding: 0;
+}
+
+.menu a {
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+  color: #cfd6ff;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+.menu a:hover {
+  background: linear-gradient(90deg, #4facfe, #a855f7);
+  color: white;
+  transform: translateX(5px);
+}
+
+/* ================= MAIN ================= */
+.main {
+  flex: 1;
+}
+
+/* GLASS PROFILE CARD */
+.profile-card {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(79,172,254,0.15);
+}
+
+.profile-card h1 {
+  margin: 0;
+  background: linear-gradient(90deg, #4facfe, #a855f7);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ADDRESS CARD */
+.card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 15px;
+  border-radius: 12px;
+  margin-top: 15px;
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 20px rgba(168,85,247,0.25);
+}
+
+.badge {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 4px 8px;
+  font-size: 12px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #4facfe, #a855f7);
+  color: white;
+}
+
+/* BUTTON */
+button {
+  background: linear-gradient(90deg, #4facfe, #a855f7);
+  border: none;
+  padding: 10px 15px;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: 0.3s;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+  }
+
+  .search-box {
+    width: 100%;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="logo">Almirah</div>
+
+  <form method="GET" action="{% url 'home' %}" class="search-box">
+    <input type="text" name="q" placeholder="Search products...">
+    <button>🔍</button>
+  </form>
+
+  <div class="nav">
+    <a href="{% url 'home' %}">Home</a>
+    <a href="{% url 'wishlist' %}">Wishlist</a>
+    <a href="{% url 'orders' %}">Orders</a>
+    <a href="{% url 'help' %}">Help</a>
+  </div>
+</header>
+
+<!-- BODY -->
+<div class="container">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <ul class="menu">
+      <li><a href="{% url 'orders' %}">📦 Orders</a></li>
+      <li><a href="{% url 'wishlist' %}">❤️ Wishlist</a></li>
+      <li><a href="{% url 'add_address' %}">🏠 Add Address</a></li>
+      <li><a href="{% url 'edit_profile' %}">✏️ Edit Profile</a></li>
+
+      <li>
+        <form method="POST" action="{% url 'logout' %}">
+          {% csrf_token %}
+          <button style="width:100%;">Logout</button>
+        </form>
+      </li>
+    </ul>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- PROFILE -->
+    <div class="profile-card">
+      <h1>Hi, {{ user.name|default:"User"}}</h1>
+      <p>📱 {{ user.mobile }}</p>
+      <p>Welcome back to Almirah ✨</p>
+    </div>
+
+    <!-- ADDRESS -->
+    <h2 style="margin-top:20px;">Your Addresses</h2>
+
+    {% for addr in addresses %}
+    <div class="card">
+      <b>{{ addr.full_name }}</b><br>
+      {{ addr.house_no }}, {{ addr.area }}<br>
+      {{ addr.city }}, {{ addr.state }} - {{ addr.pincode }}<br>
+      📞 {{ addr.phone }}
+
+      {% if addr.is_default %}
+        <div class="badge">Default</div>
+      {% endif %}
+    </div>
+    {% empty %}
+    <div class="card">
+      <p>No addresses added yet.</p>
+      <a href="{% url 'add_address' %}">
+        <button>Add Address</button>
+      </a>
+    </div>
+    {% endfor %}
+
+  </div>
+
+</div>
+
+</body>
+</html>

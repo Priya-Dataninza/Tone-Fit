@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>{{ product.product_name }} | Almirah</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+  color: white;
+}
+
+/* HEADER */
+.header {
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 40px;
+}
+
+.logo {
+  font-size: 26px;
+  font-weight: bold;
+  background: linear-gradient(45deg, #7f5af0, #2cb67d);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.nav a {
+  color: white;
+  margin-left: 15px;
+  text-decoration: none;
+}
+
+/* PRODUCT LAYOUT */
+.product-page {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  padding: 40px;
+}
+
+/* IMAGE */
+.image-box {
+  flex: 1;
+  min-width: 300px;
+}
+
+.image-box img {
+  width: 100%;
+  border-radius: 15px;
+}
+
+/* DETAILS */
+.details {
+  flex: 1;
+  min-width: 300px;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.price {
+  font-size: 24px;
+  color: #2cb67d;
+  margin: 10px 0;
+}
+
+.desc {
+  opacity: 0.85;
+  margin: 15px 0;
+  line-height: 1.5;
+}
+
+/* SIZE */
+.sizes {
+  display: flex;
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.size {
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.1);
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.size.active {
+  background: #7f5af0;
+}
+
+/* BUTTONS */
+.actions {
+  margin-top: 20px;
+  display: flex;
+  gap: 15px;
+}
+
+.cart-btn {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(45deg, #7f5af0, #2cb67d);
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.wish-btn {
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: none;
+  background: #ff4d6d;
+  color: white;
+  cursor: pointer;
+}
+
+/* RELATED */
+.related {
+  padding: 30px 40px;
+}
+
+.related h3 {
+  margin-bottom: 20px;
+}
+
+.products {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px,1fr));
+  gap: 20px;
+}
+
+.card {
+  background: rgba(255,255,255,0.05);
+  padding: 10px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.price-small {
+  color: #2cb67d;
+}
+.description {
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.05);
+  line-height: 1.7;
+}
+
+.description b {
+  color: #7f5af0;
+  display: block;
+  margin-top: 10px;
+}
+
+.description ul {
+  padding-left: 20px;
+  margin-top: 5px;
+}
+
+.description li {
+  margin-bottom: 6px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="logo">Almirah</div>
+
+  <div class="nav">
+    <a href="{% url 'cart' %}">Cart</a>
+    <a href="{% url 'wishlist' %}">Wishlist</a>
+    <a href="{% url 'profile' %}">Profile</a>
+  </div>
+</div>
+
+<!-- PRODUCT SECTION -->
+<div class="product-page">
+
+<!-- IMAGE -->
+<div class="image-box">
+  {% if product.product_image %}
+  <img src="{{ product.product_image.url }}">
+  {% endif %}
+</div>
+
+<!-- DETAILS -->
+<div class="details">
+
+  <div class="title">{{ product.product_name }}</div>
+
+  <div class="price">₹{{ product.max_retail_price }}</div>
+
+  <div class="description">
+    {{ product.product_description|default:"Premium quality fabric. Comfortable and stylish for everyday wear." }}
+  </div>
+
+  <!-- SIZE -->
+  <h4>Select Size</h4>
+  <div class="sizes">
+    <div class="size">S</div>
+    <div class="size">M</div>
+    <div class="size">L</div>
+    <div class="size">XL</div>
+  </div>
+
+  <!-- ACTION BUTTONS -->
+  <div class="actions">
+    <button class="cart-btn">🛒 Add to Cart</button>
+    <button class="wish-btn">❤ Wishlist</button>
+  </div>
+
+</div>
+</div>
+
+<!-- RELATED PRODUCTS -->
+<div class="related">
+  <h3>Related Products</h3>
+
+  <div class="products">
+    {% for p in related_products %}
+    <div class="card">
+      <a href="{% url 'product_detail' p.id %}">
+        <img src="{{ p.product_image.url }}">
+      </a>
+      <div>{{ p.product_name }}</div>
+      <div class="price-small">₹{{ p.max_retail_price }}</div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<script>
+
+/* SIZE SELECT */
+document.querySelectorAll(".size").forEach(el=>{
+  el.onclick = ()=>{
+    document.querySelectorAll(".size").forEach(s=>s.classList.remove("active"));
+    el.classList.add("active");
+  };
+});
+
+/* WISHLIST BUTTON */
+document.querySelector(".wish-btn").onclick = function(){
+  this.innerText = "❤ Added";
+};
+
+/* CART BUTTON */
+document.querySelector(".cart-btn").onclick = function(){
+  this.innerText = "Added ✓";
+};
+
+</script>
+
+</body>
+</html>

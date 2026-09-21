@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Verify OTP</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #0b0f1a;
+  color: white;
+}
+
+/* CENTER */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: radial-gradient(circle at top, #1a1f3c, #0b0f1a);
+}
+
+/* BOX */
+.box {
+  width: 360px;
+  padding: 30px;
+  border-radius: 14px;
+
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.1);
+
+  box-shadow: 0 0 25px rgba(168,85,247,0.2);
+  text-align: center;
+}
+
+/* TITLE */
+h2 {
+  margin-bottom: 10px;
+  background: linear-gradient(90deg, #4facfe, #a855f7);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* INPUT */
+input {
+  width: 100%;
+  padding: 12px;
+  margin: 18px 0;
+
+  border-radius: 8px;
+  border: 1px solid #2a2f45;
+  background: #141a2a;
+  color: white;
+  outline: none;
+  text-align: center;
+  font-size: 16px;
+  letter-spacing: 2px;
+}
+
+input:focus {
+  border: 1px solid #a855f7;
+  box-shadow: 0 0 10px rgba(168,85,247,0.3);
+}
+
+/* BUTTON */
+button {
+  width: 100%;
+  padding: 12px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: linear-gradient(90deg, #4facfe, #a855f7);
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(79,172,254,0.4);
+}
+
+/* ERROR */
+.error {
+  color: #ff4d4d;
+  margin-top: 10px;
+  font-size: 14px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <div class="box">
+
+    <h2>Verify OTP</h2>
+    <p style="color:#aaa;">Enter the OTP sent to your mobile</p>
+
+    <form method="POST">
+      {% csrf_token %}
+
+      <input type="text" name="otp" placeholder="Enter OTP" maxlength="6" required>
+
+      <button type="submit">Verify</button>
+
+      {% if error %}
+        <p class="error">{{ error }}</p>
+      {% endif %}
+
+    </form>
+
+  </div>
+</div>
+
+</body>
+</html>
